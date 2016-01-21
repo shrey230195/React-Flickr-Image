@@ -10,3 +10,5 @@ git clone "https://github.com/shrey230195/React-Flickr-Image/"
 npm install
 
 gulp serve
+
+demo : http://shrey230195.github.io/Projects/FlickrImage.html
