@@ -1,9 +1,9 @@
-# ReactLocator
-a simple webpage with options to display user info ,add adresss and facility to show directions from that address to Delhi
+# React-Flickr-Image
+React app with searches for images on Flickr and displays them
 
 
 usage :
-download the repo
+git clone "https://github.com/shrey230195/React-Flickr-Image/"
 navigate to downloaded directory in command line
  run the commands::
  
@@ -13,4 +13,4 @@ navigate to downloaded directory in command line
  
  Go to localhost:3031 in your browser to see the app
  
- demo : http://shrey230195.github.io/Projects/ReactLocator.html
+ demo : http://shrey230195.github.io/Projects/FlickrImage.html
