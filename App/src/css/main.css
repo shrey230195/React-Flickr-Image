@@ -1,10 +1,16 @@
-.Image{
+
+.Image {
 	height: 100px;
 	width: 100px;
 	margin-left: 5%;
 	margin-top: 5%;
 	float: left;
 	border: 2px solid grey;
+	cursor: pointer;
+}
+.Image img{
+	height: 100%;
+	width: 100%;
 }
 .Search{
 	width: 100%;
@@ -69,3 +75,30 @@
 	border-top:1px solid grey;
 	float: left;
 }
+.SlideShow h1{
+	margin-top: 30%;
+	color: #000;
+	float: left;
+	padding: 15px;
+	cursor: pointer;
+}
+.LightBox{
+
+
+     background: rgba(0, 0, 0, 0.8);
+	
+}
+
+.SlideShow img{
+	box-shadow: 5px 5px 5px grey;
+	margin-bottom: 3%;
+
+
+	background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999);
+	height: 90%;
+	width: 80%;
+	float: left;
+}
+

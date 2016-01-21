@@ -15,13 +15,15 @@ var Gallery = module.exports=React.createClass({displayName: 'exports',
 		source:base+'?api_key='+key+'&format=rest&format=json&nojsoncallback=1&method=flickr.photos.search&text='+this.props.url+'&per_page=30&page=1',
 		
 		isLoad:0,
-		ImageUrl:[]
+		ImageUrl:[],
+		key:0,
+		src:''
 	};
 	},
 	sendRequest:function(){
 	
 		var _ImageUrl=[];
-	$.get(this.state.source, function(result) {
+		$.get(this.state.source, function(result) {
             var collection = result.photos.photo;
             collection.map(function(img){
             	
@@ -45,48 +47,91 @@ var Gallery = module.exports=React.createClass({displayName: 'exports',
 		this.sendRequest();
 //		window.addEventListener('scroll', this.myLazyLoad);
 },
-componentWillReceiveProps :function(nextProps){
-	this.setState({
-		source:'https://api.flickr.com/services/rest/?api_key=4183982b14390bb12794e76a8f2d140a&format=rest&format=json&nojsoncallback=1&method=flickr.photos.search&text='+nextProps.url+'&per_page=30&page=1',
+	componentWillReceiveProps :function(nextProps){
+		this.setState({
+			source:'https://api.flickr.com/services/rest/?api_key=4183982b14390bb12794e76a8f2d140a&format=rest&format=json&nojsoncallback=1&method=flickr.photos.search&text='+nextProps.url+'&per_page=30&page=1',
+			
+			ImageUrl:[]
+
+		});
+		console.log(this.state.source);
+		console.log(nextProps.url);
+		console.log(this.state.ImageUrl);
 		
-		ImageUrl:[]
+	},
+	//componentDidUpdate:function(){
+	//	window.removeEventListener('scroll', this.handleScroll);
+	//this.sendRequest();
+	//},
+	componentWillUpdate:function(){
+		this.sendRequest();
 
-	});
-	console.log(this.state.source);
-	console.log(nextProps.url);
-	console.log(this.state.ImageUrl);
-	
-},
-//componentDidUpdate:function(){
-//	window.removeEventListener('scroll', this.handleScroll);
-//this.sendRequest();
-//},
-//componentWillUpdate:function(){
-//	this.sendRequest();
+	},
+	  
+	handleImageLoad: function( event ) {
 
-//},
-  myLazyLoad: function(e) {
-        // here do actions that you need: load new content, do ajax request, ...
-        // example: check you scrolling and load new content from page 1, 2, 3 ... N
-        var self = this;
-        self.setState({
-        	source:'https://api.flickr.com/services/rest/?api_key=4183982b14390bb12794e76a8f2d140a&format=rest&format=json&nojsoncallback=1&method=flickr.photos.search&text='+self.props.url+'&per_page=30&page=2',
-        });
-        console.log('fuck');
-    },
-     handleImageLoad: function( event ) {
+	                
+	                this.setState({
+	                isLoad:1
+	            });
+	            },
 
-                
-                this.setState({
-                isLoad:1
-            });
-            },
+	handleImageLoadBubbled: function( event ) {
 
-    handleImageLoadBubbled: function( event ) {
+	                
 
-                
+	            },
+	prevImage:function(){
 
-            },
+		var _key=this.state.key-1;
+		var _src=this.state.ImageUrl[_key];
+		if(_key<0){
+			_key=this.state.ImageUrl.length-1;
+		}
+		this.setState({
+			key:_key,
+			src:_src
+
+		});
+		console.log(this.state.key);
+		React.renderComponent(React.DOM.div({className: "SlideShow"}, React.DOM.h1({onClick: this.prevImage}, " < "), React.DOM.img({src: this.state.ImageUrl[this.state.key]}), React.DOM.h1({onClick: this.nextImage}, " > ")),document.getElementById('LightBox'))
+	},
+	            
+	nextImage:function(){
+
+		var _key=this.state.key+1;
+		var _src=this.state.ImageUrl[_key];
+		if(_key>=this.state.ImageUrl.length){
+			_key=0;
+		}
+		this.setState({
+			key:_key,
+			src:_src
+
+		});
+		console.log(this.state.key);
+		React.renderComponent(React.DOM.div({className: "SlideShow"}, React.DOM.h1({onClick: this.prevImage}, " < "), React.DOM.img({src: this.state.ImageUrl[this.state.key]}), React.DOM.h1({onClick: this.nextImage}, " > ")),document.getElementById('LightBox'))
+	},
+	LightBox:function(event){
+		var _src=event.target.src;
+		
+		var self = this;
+		self.setState({
+					src:_src
+				});
+		this.state.ImageUrl.map(function(i,_key){
+			if(i===_src){
+				self.setState({
+				key:_key
+				});
+				
+			}
+
+		});
+		
+		console.log('image'+JSON.stringify(this.state.src));
+		React.renderComponent(React.DOM.div({className: "SlideShow"}, React.DOM.h1({onClick: this.prevImage}, " < "), React.DOM.img({src: _src}), React.DOM.h1({onClick: this.nextImage}, " > ")),document.getElementById('LightBox'))
+	},
 	render:function(){
 		
 		
@@ -97,18 +142,28 @@ componentWillReceiveProps :function(nextProps){
 			
 			Imgref.push("image"+key);
 			//console.log(url[key]);
-			return React.DOM.img({onLoad: self.handleImageLoad, ref: Imgref[key], key: key, className: "Image", src: self.state.isLoad===0?"./src/images/loading.gif":self.state.ImageUrl[key]})
+			return React.DOM.div({className: "Image"}, React.DOM.a({href: "#LightBox"}, React.DOM.img({href: "#LightBox", onLoad: self.handleImageLoad, onClick: self.LightBox, ref: Imgref[key], key: key, src: self.state.isLoad===0?"./src/images/loading.gif":self.state.ImageUrl[key]})))
 		});
 
 		return(
 			React.DOM.div({onLoad: this.handleImageLoadBubbled}, 
+
 				React.DOM.div({className: "searchHeading"}, 
 					React.DOM.h2(null, " search results for"), 
 					React.DOM.h1(null, this.props.url)
 				), 
+				
+				
+					React.DOM.div({id: "LightBox", className: "LightBox"}
+
+					), 
+
+				
 				React.DOM.div({className: "Gallery"}, 
 					images
 				)
+				
+				
 			)
 		);
 	}
