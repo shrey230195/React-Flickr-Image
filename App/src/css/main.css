@@ -1,0 +1,71 @@
+.Image{
+	height: 100px;
+	width: 100px;
+	margin-left: 5%;
+	margin-top: 5%;
+	float: left;
+	border: 2px solid grey;
+}
+.Search{
+	width: 100%;
+	float: left;
+}
+.searchHeading{
+	width: 100%;
+	float: left;
+}
+.SearchField{
+	height: 120px;
+	width: 40%;
+	float: left;
+	margin-top: 2%;
+	margin-left: 25%;
+	box-shadow: 10px 10px 5px grey;
+
+
+}
+.Flickr{
+	width: 100%;
+	font-weight: bold;
+	font-size: 20px;
+}
+.Flickr p:nth-child(1){
+	margin-left: 30%;
+	color: blue;
+	float: left;
+
+}
+.Flickr p:nth-child(2){
+	color: red;
+	float: left;
+}
+.Flickr p:nth-child(3){
+	color: grey;
+	margin-left: 15px;
+	float: left;
+	
+}
+
+.SearchField input{
+	width: 100%;
+	float: left;
+	height: 25px;
+}
+.SearchField button{
+	margin-left: 30%;
+	width: 40%;
+}
+.jumbotron{
+	margin-top: 5%;
+	border-top:3px solid grey;
+	float: left;
+	width: 100%;
+}
+.searchHeading h2,h3{
+	width: 50%;
+	float: left;
+}
+.Gallery{
+	border-top:1px solid grey;
+	float: left;
+}
